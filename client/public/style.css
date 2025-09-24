@@ -19,6 +19,13 @@ h1, h2 {
     background-color: #004088;
     padding-left: 2rem;
     border-bottom: 4px solid #FBC669;
+    display: flex;
+    justify-items: center;
+}
+
+#sub-title {
+    align-self: center;
+    padding-left: 2rem;
 }
 
 #nav-bar {

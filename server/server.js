@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { Strategy } from "passport-local";
 import session from 'express-session';
+import cors from "cors";
 
 env.config();
 const app = express();
@@ -18,15 +19,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, "..", "client", "dist")
 
+app.use(cors({origin: "http://localhost:5173"}));
+//app.use(cors());
+
 import userRouter from "./routes/users.js";
 import vesselRouter from "./routes/vessels.js"
 app.use("/api/users", userRouter);
 app.use("/api/vessels", vesselRouter);
 
+
+
 app.use(express.static(distPath));
 
 app.all("/{*any}", (req, res) => {
-    console.log(distPath, "index.html");
     res.sendFile(path.join(distPath, "index.html"));
 });
 

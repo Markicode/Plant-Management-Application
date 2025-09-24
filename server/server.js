@@ -19,7 +19,9 @@ const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, "..", "client", "dist")
 
 import userRouter from "./routes/users.js";
+import vesselRouter from "./routes/vessels.js"
 app.use("/api/users", userRouter);
+app.use("/api/vessels", vesselRouter);
 
 app.use(express.static(distPath));
 

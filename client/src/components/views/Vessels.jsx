@@ -13,11 +13,14 @@ import axios from "axios";
   }
 }*/
 
+axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.withCredentials = true;
+
 function Vessels() {
   console.log("render");
-  const { setNavTitle } = useOutletContext();
+  const { setNavTitle } = useOutletContext() || {};
   useEffect(() => {
-    setNavTitle("Ketels");
+    setNavTitle?.("Ketels");
   }, [setNavTitle]);
 
   const [data, setData] = useState(null);
@@ -25,7 +28,7 @@ function Vessels() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/users/");
+        const response = await axios.get("/api/vessels/");
         const result = response.data;
         setData(result);
       } catch (error) {

@@ -47,6 +47,7 @@ export function AuthProvider({ children }) {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;

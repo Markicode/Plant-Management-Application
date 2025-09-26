@@ -1,9 +1,13 @@
-import React from "react";
-import { useOutletContext } from "react-router";
+import React, { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 function ManageVessels() {
-  const { setNavTitle } = useOutletContext();
-  setNavTitle("Ketel management");
+  const { setNavTitle } = useOutletContext() || {};
+
+  useEffect(() => {
+    setNavTitle?.("Ketelbeheer");
+  }, [setNavTitle]);
+
   return <h3>Ketel management</h3>;
 }
 

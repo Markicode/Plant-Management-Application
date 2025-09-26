@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
-import { useOutletContext } from "react-router";
+import React, { useContext, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 function Home() {
   const { user, logout } = useContext(AuthContext);
   const { setNavTitle } = useOutletContext();
-  setNavTitle("Home");
+
+  useEffect(() => {
+    setNavTitle?.("Home");
+  }, [setNavTitle]);
+
   return (
     <>
       <h3>Homepage</h3>
       <h2>Welkom {user?.username}</h2>
-      <button onClick={logout}></button>
+      <button onClick={logout}>Logout</button>
     </>
   );
 }

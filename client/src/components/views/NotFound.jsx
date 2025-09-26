@@ -1,9 +1,13 @@
-import React from "react";
-import { useOutletContext } from "react-router";
+import React, { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 function Home() {
-  const { setNavTitle } = useOutletContext();
-  setNavTitle("Not found");
+  const { setNavTitle } = useOutletContext() || {};
+
+  useEffect(() => {
+    setNavTitle?.("Home");
+  }, [setNavTitle]);
+
   return <h3>Page Not Found</h3>;
 }
 

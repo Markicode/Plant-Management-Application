@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import NavItem from "./Navitem";
-import { NavbarContext } from "../contexts/NavbarContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Navbar({ navTitle }) {
+  const { user, loading } = useContext(AuthContext);
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div id="container">
       <div id="logo-bar">
@@ -15,12 +18,20 @@ function Navbar({ navTitle }) {
       </div>
       <div id="nav-bar">
         <NavItem url="/" text="Home" />
-        <NavItem url="/login" text="Log in" />
-        <NavItem url="/vessels" text="Ketels" />
-        <NavItem url="/products" text="Producten" />
-        <NavItem url="/members" text="Leden" />
-        <NavItem url="/managevessels" text="Ketelbeheer" />
-        <NavItem url="/logout" text="Log uit" />
+        {!user && <NavItem url="/login" text="Log in" />}
+        {user && (
+          <>
+            <NavItem url="/vessels" text="Ketels" />
+            <NavItem url="/products" text="Producten" />
+          </>
+        )}
+        {user && user.role === "admin" && (
+          <>
+            <NavItem url="/members" text="Leden" />
+            <NavItem url="/managevessels" text="Ketelbeheer" />
+          </>
+        )}
+        {user && <NavItem url="/logout" text="Log uit" />}
       </div>
     </div>
   );

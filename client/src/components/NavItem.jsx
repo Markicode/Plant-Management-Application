@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function NavItem(props) {
+function NavItem({ url, text }) {
   return (
     <div className="nav-button">
-      <a href={props.url}>
-        <h2>{props.text}</h2>
-      </a>
+      <Link to={url}>
+        <h2>{text}</h2>
+      </Link>
     </div>
   );
 }

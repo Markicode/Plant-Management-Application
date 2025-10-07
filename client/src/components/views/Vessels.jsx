@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-//import { NavbarContext } from "../../contexts/NavbarContext";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
+import VesselTable from "../VesselTable";
 
 /*async function getVessels() {
   try {
@@ -45,6 +45,7 @@ function Vessels() {
     return (
       <>
         <h3>Hier alle ketels</h3>
+        <VesselTable data={data} />
       </>
     );
   }

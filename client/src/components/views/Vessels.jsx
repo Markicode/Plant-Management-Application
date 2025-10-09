@@ -3,16 +3,6 @@ import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import VesselTable from "../VesselTable";
 
-/*async function getVessels() {
-  try {
-    const response = await axios.get("https://localhost:8080/api/users/");
-    const result = response.data;
-    return result;
-  } catch (error) {
-    console.error("Failed to make request:", error.message);
-  }
-}*/
-
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
@@ -44,7 +34,7 @@ function Vessels() {
     console.log(data);
     return (
       <>
-        <h3>Hier alle ketels</h3>
+        <h3>Overzicht ketels</h3>
         <VesselTable data={data} />
       </>
     );

@@ -17,7 +17,7 @@ export default function ManageVesselTable(props) {
           {props.data.map((vessel) => {
             return (
               <tr key={vessel.id}>
-                <td>{vessel.name}</td>
+                <td>{vessel.vessel_name}</td>
                 <td>{vessel.max_content}</td>
                 <td>{vessel.location}</td>
                 <td>aanpassen</td>

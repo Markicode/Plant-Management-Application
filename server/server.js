@@ -72,23 +72,22 @@ app.all("/{*any}", (req, res) => {
 passport.use(
   new Strategy(async function verify(username, password, cb) {
     try {
-        console.log("trying to find user");
+        log("trying to find user" + username);
       const result = await db.query("SELECT * FROM users WHERE username = $1 ", [
         username,
       ]);
       if (result.rows.length > 0) {
         const user = result.rows[0];
-        console.log(user);
         const storedHashedPassword = user.password;
         bcrypt.compare(password, storedHashedPassword, (err, valid) => {
           if (err) {
             //Error with password check
-            console.error("Error comparing passwords:", err);
+            logError("Error comparing passwords:", err);
             return cb(err);
           } else {
             if (valid) {
               //Passed password check
-              console.log("password oke");
+              log("password oke");
               return cb(null, user);
             } else {
               //Did not pass password check
@@ -106,29 +105,16 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-    console.log("serializeUser storing id:", user.id);
+    log("serializeUser id:" + user.id);
   done(null, user.id);
 });
-/*passport.deserializeUser(async (id, done) => {
-    let user = null;
-    try{
-    const result = await db.query("SELECT * FROM users WHERE id = $1 ", [
-        id,
-      ]);
-      user = result.rows[0];
-      console.log("deserialize", user);
-    }
-    catch(err) {
-        console.log(err)
-    }
-    done(null, user);
-});*/
+
 passport.deserializeUser(async (id, done) => {
-  console.log("deserializeUser looking up id:", id);
+  log("deserializeUser id:" + id);
   try {
     const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
     const user = result.rows[0];
-    console.log("Found user in DB:", user);
+    log("Found user in DB:" + user.username);
     done(null, user);
   } catch (err) {
     done(err);
@@ -138,3 +124,32 @@ passport.deserializeUser(async (id, done) => {
 app.listen(serverPort, () => {
     console.log(`Server running on port: ${serverPort}`);
 });
+
+function log(message)
+{
+  const now = new Date();
+  const dateTimeString = now.toLocaleString("nl-NL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  console.log(dateTimeString, message);
+
+}
+
+function logError(message, error)
+{
+  const now = new Date();
+  const dateTimeString = now.toLocaleString("nl-NL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  console.error(dateTimeString, message, error);
+}

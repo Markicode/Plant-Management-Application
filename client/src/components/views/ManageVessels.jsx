@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import AddVessel from "../AddVessel";
-import VesselTable from "../VesselTable";
+import ManageVesselTable from "../ManageVesselTable";
 
 function ManageVessels() {
   const { setNavTitle } = useOutletContext() || {};
@@ -12,16 +12,17 @@ function ManageVessels() {
     setNavTitle?.("Ketelbeheer");
   }, [setNavTitle]);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/vessels/");
+      const result = response.data;
+      setData(result);
+    } catch (error) {
+      console.error("Failed to make request:", error.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/vessels/");
-        const result = response.data;
-        setData(result);
-      } catch (error) {
-        console.error("Failed to make request:", error.message);
-      }
-    };
     fetchData();
   }, []);
 
@@ -32,9 +33,9 @@ function ManageVessels() {
     return (
       <>
         <h3>Ketel toevoegen:</h3>
-        <AddVessel />
+        <AddVessel onVesselAdded={fetchData} />
         <h3>Ketels:</h3>
-        <VesselTable data={data} />
+        <ManageVesselTable data={data} />
       </>
     );
   }

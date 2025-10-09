@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-export default function AddVessel() {
+export default function AddVessel({ onVesselAdded }) {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     vesselName: "",
     maxContent: "",
     location: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +20,14 @@ export default function AddVessel() {
     try {
       const result = await axios.post("/api/vessels/addvessel", form);
       console.log("Vessel added:", result);
-      navigate("/vessels", { replace: true });
+      if (onVesselAdded) {
+        onVesselAdded();
+      }
+      setForm({
+        vesselName: "",
+        maxContent: "",
+        location: "",
+      });
     } catch (err) {
       console.error("API call failed:", err);
     } finally {
